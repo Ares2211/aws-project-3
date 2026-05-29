@@ -1,4 +1,6 @@
 *.zip
 _pycache_/
 .vscode/
+venv/
+*.pem
 

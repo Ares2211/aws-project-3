@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesPulse Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">SalesPulse Analytics</span>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="mb-4 fw-bold text-dark">SalesPulse Analytics Dashboard</h1>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card bg-dark text-white shadow">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase text-muted small fw-bold">Total Revenue</h5>
+                        <p class="fs-2 mb-0 fw-bold text-success">
+                            ₹{{ "{:,.2f}".format(total_revenue if total_revenue else 0) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h4 class="mb-3 fw-bold text-secondary">Add New Sale</h4>
+                        <form action="/" method="POST">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold text-muted">Product Name</label>
+                                <input type="text" name="product_name" class="form-control" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold text-muted">Amount (INR)</label>
+                                <input type="number" name="amount" min="1" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 fw-bold">Add Sale</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-7">
+                <h4 class="mb-3 fw-bold text-secondary">Recent Sales Records</h4>
+                <div class="row">
+                    {% if sales %}
+                        {% for sale in sales %}
+                        <div class="col-sm-6 mb-3">
+                            <div class="card shadow-sm h-100 border-start border-primary border-3">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h5 class="card-title text-truncate text-dark fw-bold mb-1">{{ sale[0] }}</h5>
+                                    <p class="card-text fs-4 fw-semibold text-primary mb-0">₹{{ "{:,}".format(sale[1]) }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-warning text-center" role="alert">
+                                No sales records found in <strong>salespulse</strong>. Use the form to ingest data.
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

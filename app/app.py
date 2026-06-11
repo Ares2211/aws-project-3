@@ -5,9 +5,9 @@ app = Flask(__name__)
 
 # Consolidated low-level database engine configuration
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'Anant@22',
+    'host': 'database-1.cje6auagcmve.ap-south-1.rds.amazonaws.com',
+    'user': 'admin',
+    'password': 'Anant2211',
     'database': 'salespulse'
 }
 

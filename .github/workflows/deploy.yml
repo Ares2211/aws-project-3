@@ -1,0 +1,38 @@
+name: Deploy SalesPulse # Workflow name displayed in GitHub Actions.
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment whenever code is pushed to main.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # GitHub creates a temporary Ubuntu runner.
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # Download repository contents.
+
+      - name: Deploy To EC2
+        uses: appleboy/ssh-action@v1.0.3 # SSH into EC2 and execute commands.
+
+        with:
+          host: ${{ secrets.EC2_HOST }} # Elastic IP stored in GitHub Secrets.
+
+          username: ${{ secrets.EC2_USER }} # Linux user.
+
+          key: ${{ secrets.EC2_SSH_KEY }} # SSH private key.
+
+          script: |
+            cd /home/ec2-user/aws-project-3 # Move into project folder.
+
+            git pull origin main # Download latest code.
+
+            source venv/bin/activate # Activate Python virtual environment.
+
+            pip install -r requirements.txt # Install new dependencies if needed.
+
+            sudo systemctl restart salespulse # Restart application.
+
+            sudo systemctl status salespulse --no-pager # Show service status.

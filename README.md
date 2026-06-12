@@ -2,7 +2,7 @@
 
 ## Architecture Diagram
 
-![SalesPulse Architecture](images/architecture-diagram.png)
+![SalesPulse Architecture](./images/Architecture_project_3.png)
 
 ## Project Overview
 
